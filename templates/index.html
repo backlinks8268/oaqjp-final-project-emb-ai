@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Emotion Detector</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f7fa; color: #202b3c; margin: 0; }
+        main { max-width: 800px; margin: 70px auto; padding: 36px; background: white; border-radius: 12px; }
+        h1 { margin-top: 0; }
+        label { display: block; margin: 24px 0 10px; font-weight: bold; }
+        textarea { box-sizing: border-box; width: 100%; padding: 12px; font: inherit; border: 1px solid #9ba6b5; border-radius: 5px; }
+        button { margin-top: 16px; padding: 12px 22px; background: #185abc; color: white; border: 0; border-radius: 5px; cursor: pointer; }
+        button:disabled { opacity: 0.6; }
+        #system_response { line-height: 1.7; overflow-wrap: anywhere; }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Emotion Detector</h1>
+        <p>Analyse text with Watson NLP to identify its dominant emotion.</p>
+        <form id="emotionForm">
+            <label for="textToAnalyze">Enter the text to be analysed</label>
+            <textarea id="textToAnalyze" rows="4" placeholder="Type a statement here"></textarea>
+            <button id="analyseButton" type="submit">Run Emotion Analysis</button>
+        </form>
+        <h2>Result</h2>
+        <div id="system_response" role="status" aria-live="polite"></div>
+    </main>
+    <script>
+        document.getElementById("emotionForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const button = document.getElementById("analyseButton");
+            const output = document.getElementById("system_response");
+            const text = document.getElementById("textToAnalyze").value;
+            button.disabled = true;
+            output.textContent = "Analysing...";
+            try {
+                const response = await fetch("/emotionDetector?textToAnalyze=" + encodeURIComponent(text));
+                if (!response.ok) {
+                    throw new Error("Analysis request failed");
+                }
+                output.textContent = await response.text();
+            } catch (error) {
+                output.textContent = "Unable to analyse the text. Please try again.";
+            } finally {
+                button.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
