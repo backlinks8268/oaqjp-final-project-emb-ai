@@ -1,0 +1,16 @@
+$ python3 -m unittest -v test_emotion_detection 2>&1 | tee 5b_unit_testing
+test_anger (test_emotion_detection.TestEmotionDetector)
+An angry statement should return anger. ... ok
+test_disgust (test_emotion_detection.TestEmotionDetector)
+A disgusted statement should return disgust. ... ok
+test_fear (test_emotion_detection.TestEmotionDetector)
+A fearful statement should return fear. ... ok
+test_joy (test_emotion_detection.TestEmotionDetector)
+A happy statement should return joy. ... ok
+test_sadness (test_emotion_detection.TestEmotionDetector)
+A sad statement should return sadness. ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.616s
+
+OK
